@@ -1,0 +1,62 @@
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.border.Border;
+
+import org.opencv.core.Core;
+
+public class VideoPanel extends JPanel implements ActionListener {
+
+	public VideoCap videoCap = new VideoCap();
+	JButton blackFilter = new JButton("change filter to black");
+	private int imageCount = 0;
+	
+	
+	public VideoPanel() {
+		super();
+	}
+
+	public  VideoCap getVidCap()
+	{
+		return videoCap;
+	}
+	
+	public void paint(Graphics g) {
+		paintComponent(g);
+		g.drawImage(videoCap.getOneFrame(), 0, 0, this);
+	}
+
+	public static void main(String[] args) {
+		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+		JFrame frame = new JFrame();
+
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setBounds(100, 100, 1000, 1000);
+		frame.setLayout(new BorderLayout());
+
+		VideoPanel vid = new VideoPanel();
+		VideoButtons buttons = new VideoButtons();
+
+		frame.setVisible(true);
+
+		frame.add(vid, BorderLayout.CENTER);
+		frame.add(buttons, BorderLayout.SOUTH);
+
+		
+		vid.setVisible(true);
+
+		while (true) {
+			vid.repaint();
+		}
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		
+	}
+}
